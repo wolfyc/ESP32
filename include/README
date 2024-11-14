@@ -1,39 +1,103 @@
+# Button Handler Library for ESP32
 
-This directory is intended for project header files.
+## Description
 
-A header file is a file containing C declarations and macro definitions
-to be shared between several project source files. You request the use of a
-header file in your project source file (C, C++, etc) located in `src` folder
-by including it, with the C preprocessing directive `#include'.
+This project provides a reusable library for handling button presses on an ESP32 board. The library is written in C++ and allows the user to easily manage multiple button press types, including:
 
-```src/main.c
+- **Single Click**
+- **Double Click**
+- **Short Press**
+- **Long Press**
+- **Ultra Long Press**
 
-#include "header.h"
+The library consists of two files: `button_handler.h` and `button_handler.cpp`. These files contain the functions and logic to manage button presses with debounce handling and distinguish between different press actions.
 
-int main (void)
-{
- ...
+## Project Structure
+
+The project consists of the following files:
+
+- **button\_handler.h**: Header file that declares functions, global variables, and enumerations for button handling.
+- **button\_handler.cpp**: Source file that contains the implementation of the button handling logic.
+- **main.cpp**: Example file that demonstrates how to use the button handler library in an ESP32 project.
+
+### Folder Structure
+
+```
+src/
+  |- main.cpp
+  |- button_handler.cpp
+  |- button_handler.h
+```
+
+## Getting Started
+
+### Prerequisites
+
+- **PlatformIO** extension installed in **VS Code**.
+- ESP32 development environment properly configured.
+
+### Adding the Library to Your Project
+
+1. Copy `button_handler.h` and `button_handler.cpp` into your project’s **src** directory.
+2. Include `button_handler.h` in your **main.cpp** file to access the button handling functions.
+
+### Usage
+
+Here is an example of how to use the button handler in your **main.cpp** file:
+
+```cpp
+#include <Arduino.h>
+#include "button_handler.h"
+
+void setup() {
+    setupButton();  // Initialize the button settings
+}
+
+void loop() {
+    loopButtonHandler();  // Handle button events
 }
 ```
 
-Including a header file produces the same results as copying the header file
-into each source file that needs it. Such copying would be time-consuming
-and error-prone. With a header file, the related declarations appear
-in only one place. If they need to be changed, they can be changed in one
-place, and programs that include the header file will automatically use the
-new version when next recompiled. The header file eliminates the labor of
-finding and changing all the copies as well as the risk that a failure to
-find one copy will result in inconsistencies within a program.
+### Functions
 
-In C, the usual convention is to give header files names that end with `.h'.
-It is most portable to use only letters, digits, dashes, and underscores in
-header file names, and at most one dot.
+- **setupButton()**: Initializes the button pin configuration and serial communication.
+- **loopButtonHandler()**: Handles button press events, including debounce and detection of different click types.
+- **handleButtonState(ButtonState state)**: Processes each detected button state and prints the appropriate message.
 
-Read more about using header files in official GCC documentation:
+### Pins and Configuration
 
-* Include Syntax
-* Include Operation
-* Once-Only Headers
-* Computed Includes
+- **BUTTON\_PIN (GPIO 15)**: The GPIO pin used for the button input. It is configured with an internal pull-up resistor.
+- **DEBOUNCE\_DELAY (50 ms)**: A debounce delay used to filter out noise from the button.
 
-https://gcc.gnu.org/onlinedocs/cpp/Header-Files.html
+## Button Press Types
+
+The library can detect the following button press types:
+
+- **Single Click**: A quick press and release.
+- **Double Click**: Two quick presses in succession.
+- **Short Press**: A press lasting between 300 ms and 1 second.
+- **Long Press**: A press lasting between 1 second and 2 seconds.
+- **Ultra Long Press**: A press lasting more than 2 seconds.
+
+## Troubleshooting
+
+### Linker Errors
+
+If you encounter linker errors such as `undefined reference to 'setupButton()'` or `undefined reference to 'loopButtonHandler()'`, ensure that:
+
+- `button_handler.cpp` is located in the **src** directory.
+- `button_handler.h` is correctly included in **main.cpp**.
+- Clean the project and rebuild it.
+
+## License
+
+This library is open source and available for use and modification in any ESP32 project.
+
+## Author
+
+Developed by ZAIDI Mohamed for the Finale ProAdapt project.
+
+## Author
+
+This button handler library was created to help manage button events easily and reliably in ESP32 projects. Contributions and improvements are welcome.
+

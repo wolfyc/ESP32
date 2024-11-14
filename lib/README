@@ -1,46 +1,103 @@
+# Button Handler Library for ESP32
 
-This directory is intended for project specific (private) libraries.
-PlatformIO will compile them to static libraries and link into executable file.
+## Description
 
-The source code of each library should be placed in an own separate directory
-("lib/your_library_name/[here are source files]").
+This project provides a reusable library for handling button presses on an ESP32 board. The library is written in C++ and allows the user to easily manage multiple button press types, including:
 
-For example, see a structure of the following two libraries `Foo` and `Bar`:
+- **Single Click**
+- **Double Click**
+- **Short Press**
+- **Long Press**
+- **Ultra Long Press**
 
-|--lib
-|  |
-|  |--Bar
-|  |  |--docs
-|  |  |--examples
-|  |  |--src
-|  |     |- Bar.c
-|  |     |- Bar.h
-|  |  |- library.json (optional, custom build options, etc) https://docs.platformio.org/page/librarymanager/config.html
-|  |
-|  |--Foo
-|  |  |- Foo.c
-|  |  |- Foo.h
-|  |
-|  |- README --> THIS FILE
-|
-|- platformio.ini
-|--src
-   |- main.c
+The library consists of two files: `button_handler.h` and `button_handler.cpp`. These files contain the functions and logic to manage button presses with debounce handling and distinguish between different press actions.
 
-and a contents of `src/main.c`:
+## Project Structure
+
+The project consists of the following files:
+
+- **button\_handler.h**: Header file that declares functions, global variables, and enumerations for button handling.
+- **button\_handler.cpp**: Source file that contains the implementation of the button handling logic.
+- **main.cpp**: Example file that demonstrates how to use the button handler library in an ESP32 project.
+
+### Folder Structure
+
 ```
-#include <Foo.h>
-#include <Bar.h>
+src/
+  |- main.cpp
+  |- button_handler.cpp
+  |- button_handler.h
+```
 
-int main (void)
-{
-  ...
+## Getting Started
+
+### Prerequisites
+
+- **PlatformIO** extension installed in **VS Code**.
+- ESP32 development environment properly configured.
+
+### Adding the Library to Your Project
+
+1. Copy `button_handler.h` and `button_handler.cpp` into your project’s **src** directory.
+2. Include `button_handler.h` in your **main.cpp** file to access the button handling functions.
+
+### Usage
+
+Here is an example of how to use the button handler in your **main.cpp** file:
+
+```cpp
+#include <Arduino.h>
+#include "button_handler.h"
+
+void setup() {
+    setupButton();  // Initialize the button settings
 }
 
+void loop() {
+    loopButtonHandler();  // Handle button events
+}
 ```
 
-PlatformIO Library Dependency Finder will find automatically dependent
-libraries scanning project source files.
+### Functions
 
-More information about PlatformIO Library Dependency Finder
-- https://docs.platformio.org/page/librarymanager/ldf.html
+- **setupButton()**: Initializes the button pin configuration and serial communication.
+- **loopButtonHandler()**: Handles button press events, including debounce and detection of different click types.
+- **handleButtonState(ButtonState state)**: Processes each detected button state and prints the appropriate message.
+
+### Pins and Configuration
+
+- **BUTTON\_PIN (GPIO 15)**: The GPIO pin used for the button input. It is configured with an internal pull-up resistor.
+- **DEBOUNCE\_DELAY (50 ms)**: A debounce delay used to filter out noise from the button.
+
+## Button Press Types
+
+The library can detect the following button press types:
+
+- **Single Click**: A quick press and release.
+- **Double Click**: Two quick presses in succession.
+- **Short Press**: A press lasting between 300 ms and 1 second.
+- **Long Press**: A press lasting between 1 second and 2 seconds.
+- **Ultra Long Press**: A press lasting more than 2 seconds.
+
+## Troubleshooting
+
+### Linker Errors
+
+If you encounter linker errors such as `undefined reference to 'setupButton()'` or `undefined reference to 'loopButtonHandler()'`, ensure that:
+
+- `button_handler.cpp` is located in the **src** directory.
+- `button_handler.h` is correctly included in **main.cpp**.
+- Clean the project and rebuild it.
+
+## License
+
+This library is open source and available for use and modification in any ESP32 project.
+
+## Author
+
+Developed by ZAIDI Mohamed for the Finale ProAdapt project.
+
+## Author
+
+This button handler library was created to help manage button events easily and reliably in ESP32 projects. Contributions and improvements are welcome.
+
